@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-gap: 2px;
+            min-width: min(100vw, 100vh);
+            min-height: min(100vw, 100vh);
+        }
+        .grid-item {
+            background-color: #aaa;
+            border: 1px solid #888;
+            cursor: pointer;
+        }
+        .lit {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        {% for row in range(5) %}
+            {% for col in range(5) %}
+                <div id="cell_{{ row }}_{{ col }}" class="grid-item {% if grid[row][col] %} lit {% endif %}" onclick="toggleCell({{ row }}, {{ col }})"></div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('connect', function() {
+            console.log('Connected');
+        });
+
+        socket.on('update_grid', function(data) {
+            var cell = document.getElementById('cell_' + data.row + '_' + data.col);
+            if (data.lit) {
+                cell.classList.add('lit');
+            } else {
+                cell.classList.remove('lit');
+            }
+        });
+
+        function toggleCell(row, col) {
+            socket.emit('toggle_cell', {'row': row, 'col': col});
+        }
+    </script>
+</body>
+</html>
