@@ -13,3 +13,4 @@
 - 复制已有的表格图片
 - 运行recognize.py
 - 识别结果会自动写入grid-text.txt
+- *此功能使用了[百度的文字识别API](https://ai.baidu.com/ai-doc/OCR/Al1zvpylt)，需要将[access_token](https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjhhu)填入ocr/baidu/access_token
