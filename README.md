@@ -7,3 +7,9 @@
 
 - 修改grid-text.txt
 - 每一行会被依次填入表格
+
+## 识别已有的表格
+
+- 复制已有的表格图片
+- 运行recognize.py
+- 识别结果会自动写入grid-text.txt
