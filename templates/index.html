@@ -113,6 +113,7 @@
         }
 
         @media screen and (orientation: landscape) {
+
             body,
             html {
                 display: flex;
@@ -164,6 +165,7 @@
     <script>
         const gridTextSwitch = document.getElementById('grid-text-switch');
         const gridItems = document.querySelectorAll('.grid-text');
+
         gridTextSwitch.addEventListener('change', function () {
             if (this.checked) {
                 gridItems.forEach(item => {
@@ -174,6 +176,33 @@
                     item.style.visibility = 'hidden';
                 });
             }
+        });
+    </script>
+    <script>
+        window.addEventListener('resize', function () {
+            resizeTextToFitGrid();
+        });
+
+        function resizeTextToFitGrid() {
+            var gridTexts = document.querySelectorAll('.grid-text');
+            gridTexts.forEach(function (gridText) {
+                var gridItem = gridText.closest('.grid-item');
+                var gridWidth = gridItem.offsetWidth;
+                var gridHeight = gridItem.offsetHeight;
+                var fontSize = 100; // 初始字体大小
+                var textWidth, textHeight;
+
+                do {
+                    gridText.style.fontSize = fontSize + '%';
+                    textWidth = gridText.offsetWidth;
+                    textHeight = gridText.offsetHeight;
+                    fontSize -= 1;
+                } while ((textWidth > gridWidth || textHeight > gridHeight) && fontSize > 0);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+            resizeTextToFitGrid();
         });
     </script>
 </body>
